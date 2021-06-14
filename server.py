@@ -137,70 +137,60 @@ def send_target_commands(conn):
     while True:
         try:
             #burdan kodları seçerek devam et
-            cmd = input("""İşlem Numaranızı Seçin: \n 
-            1) Kullanıcı Ekleme \n 
-            2) Kullanıcı Silme \n 
-            3) Kullanıcı Düzenleme \n 
-            4) Dosya Yetkisi Ekleme ve Kaldırma \n
-            >>>""")
+            cmd = input("İşlem Numaranızı Seçin: \n1) Kullanıcı Ekleme \n2) Kullanıcı Silme \n3) Kullanıcı Düzenleme \n4) Dosya Yetkisi Ekleme ve Kaldırma\n5) Servis İşlemleri\n6) Reboot\n>>>")
             if cmd == "1":
                 cmd += ","
                 cmd += input("Kullanıcı Adı: ")
                 cmd += ","
                 cmd += input("Parola: ")
                 cmd += ","
-                if len(str.encode(get_groups)) > 0:
-                    conn.send(str.encode(get_groups))
+                if len(str.encode(cmd)) > 0:
+                    conn.send(str.encode(cmd))
                     client_response = str(conn.recv(20480), "utf-8")
-                    print(client_response, end="")
-                #print(cmd)
+                print(client_response, end="")
                 cmd += input("Eklemek istediğiniz Grubu Yazınız:")
             
             
             elif cmd == "2":
                 cmd += ","
-                if len(str.encode(get_users)) > 0:
-                    conn.send(str.encode(get_users))
+                if len(str.encode(cmd)) > 0:
+                    conn.send(str.encode(cmd))
                     client_response = str(conn.recv(20480), "utf-8")
-                    print(client_response, end="")
+                print(client_response, end="")
                 cmd += input("Kullanıcı Adı: ")
 
                 
             elif cmd == "3":
-                if len(str.encode(get_users)) > 0:
-                    conn.send(str.encode(get_users))
-                    client_response = str(conn.recv(20480), "utf-8")
-                    print("İşlem Yapabileceğiniz Kullanıcılar:")
-                    print(client_response, end="")
-
                 cmd += ","
-                cmd = input("İşlem Numaranızı Seçin: \n 1) Parola Değiştirme \n 2) Enable \n 3) Disable \n 4) Gruba Ekle \n 5) Grubtan Çıkar \n>>> ")
-                if cmd.split(",")[1] == "1":
-                    cmd += input("Kullanıcı Adı: ")
+                if len(str.encode(cmd)) > 0:
+                    conn.send(str.encode(cmd))
+                    client_response = str(conn.recv(20480), "utf-8")
+                print(client_response, end="")
+
+                cmd += input("Kullanıcı Adını Giriniz\n>>> ")
+                cmd += ","
+                cmd += input("İşlem Seçiniz: \n 1) Parola Değiştirme \n 2) Enable \n 3) Disable \n 4) Gruba Ekle \n 5) Grubtan Çıkar \n>>> ")
+                if cmd.split(",")[2] == "1":
+                    cmd += input("Yeni Parola: ")
+                elif cmd.split(",")[2] == "4":
                     cmd += ","
-                    cmd += input("Parola: ")
-                elif cmd.split(",")[1] == "2":
-                    cmd += input("Kullanıcı Adı: ")
-                elif cmd.split(",")[1] == "3":
-                    cmd += input("Kullanıcı Adı: ")
-                elif cmd.split(",")[1] == "4":
-                    cmd += input("Kullanıcı Adı: ")
-                    cmd += ","
-                    if len(str.encode(get_groups)) > 0:
-                        conn.send(str.encode(get_groups))
+                    if len(str.encode(cmd)) > 0:
+                        conn.send(str.encode(cmd))
                         client_response = str(conn.recv(20480), "utf-8")
-                        print(client_response, end="")
-                    cmd += input("Eklemek istediğiniz Grubu Yazınız\n>>>")
-                elif cmd.split(",")[1] == "5":
-                    cmd += input("Kullanıcı Adı: ")
+                    print(client_response, end="")
+                    cmd += input("Grup Seçiniz\n>>>")
+                    
+                elif cmd.split(",")[2] == "5":
                     cmd += ","
-                    if len(str.encode(get_groupMember + "'" + cmd.split(",")[2] + "'")) > 0:
-                        conn.send(str.encode(get_groupMember + "'" + cmd.split(",")[2] + "'"))
+                    if len(str.encode(cmd)) > 0:
+                        conn.send(str.encode(cmd))
                         client_response = str(conn.recv(20480), "utf-8")
-                        print(client_response, end="")
-                    cmd += input("Çıkarmak istediğiniz Grubu Yazınız\n>>>")
+                    print(client_response, end="")
+                    cmd += input("Grup Seçiniz\n>>>")
             
             elif cmd == "4":
+                cmd += ","
+                cmd += input("1) Yetki Ekle\n2) Yetki Kaldır\n>>>")
                 if cmd.split(",")[1] == "1":
                     cmd += ","
                     cmd += input("Kullanıcı Adı: ")
@@ -212,36 +202,44 @@ def send_target_commands(conn):
                     cmd += ","
                     cmd += input("Dosya Yolu: ")
             elif cmd == "5":
+                cmd += ","
+                cmd += input("1) Restart\n2) Stop\n3) Start\n>>>")
                 if cmd.split(",")[1] == "1":
-                    if len(str.encode(get_services_down)) > 0:
-                        conn.send(str.encode(get_services_down))
-                        client_response = str(conn.recv(20480), "utf-8")
-                        print(client_response, end="")
                     cmd += ","
+                    
+                    if len(str.encode(cmd)) > 0:
+                        conn.send(str.encode(cmd))
+                        client_response = str(conn.recv(20480), "utf-8")
+                    print(client_response, end="")
+
                     cmd += input("Servis Adını Giriniz\n>>>")
 
                 elif cmd.split(",")[1] == "2":
-                    if len(str.encode(get_services_running)) > 0:
-                        conn.send(str.encode(get_services_running))
-                        client_response = str(conn.recv(20480), "utf-8")
-                        print(client_response, end="")
                     cmd += ","
+
+                    if len(str.encode(cmd)) > 0:
+                        conn.send(str.encode(cmd))
+                        client_response = str(conn.recv(20480), "utf-8")
+                    print(client_response, end="")
+                    
                     cmd += input("Servis Adını Giriniz\n>>>")
                 elif cmd.split(",")[1] == "3":
-                    if len(str.encode(get_services_running)) > 0:
-                        conn.send(str.encode(get_services_running))
-                        client_response = str(conn.recv(20480), "utf-8")
-                        print(client_response, end="")
                     cmd += ","
+        
+                    if len(str.encode(cmd)) > 0:
+                        conn.send(str.encode(cmd))
+                        client_response = str(conn.recv(20480), "utf-8")
+                    print(client_response, end="")
+
                     cmd += input("Servis Adını Giriniz\n>>>")
             
             elif cmd == 'quit':
                 break
             if len(str.encode(cmd)) > 0:
                 conn.send(str.encode(cmd))
-                client_response2 = str(conn.recv(20480), "utf-8")
-                print(client_response2, end="")
-            print(cmd)
+                client_response = str(conn.recv(20480), "utf-8")
+                print(client_response, end="")
+            #print(cmd)
         except:
             print("Error sending commands")
             break
