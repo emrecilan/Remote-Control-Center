@@ -127,13 +127,7 @@ def get_target(cmd):
 
 # Send commands to client/victim or a friend
 def send_target_commands(conn):
-    get_users = "Get-LocalUser"
-    get_groups = "Get-LocalGroup"
-    get_groupMember = "Get-LocalGroupMember -Member "
-    get_services_running = "Get-Service | Where-Object {$_.Status -eq 'Running'}"
-    get_services_down = "Get-Service | Where-Object {$_.Status -eq 'Stopped'}"
-    get_services_all = ""
-    commmands_query=""
+
     while True:
         try:
             #burdan kodları seçerek devam et
