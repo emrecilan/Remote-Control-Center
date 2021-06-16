@@ -169,7 +169,7 @@ def send_target_commands(conn):
 
                 cmd += input("Kullanıcı Adını Giriniz\n>>> ")
                 cmd += ","
-                cmd += input("İşlem Seçiniz: \n 1) Parola Değiştirme \n 2) Enable \n 3) Disable \n 4) Gruba Ekle \n 5) Grubtan Çıkar \n>>> ")
+                cmd += input("İşlem Seçiniz: \n 1) Parola Değiştirme \n 2) Enable \n 3) Disable \n 4) Gruba Ekle \n 5) Grubtan Çıkar\nquit)Sunucudan Çıkış Yap \n>>> ")
                 if cmd.split(",")[2] == "1":
                     cmd += input("Yeni Parola: ")
                 elif cmd.split(",")[2] == "4":
