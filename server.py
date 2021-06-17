@@ -17,7 +17,7 @@ def create_socket():
         global host
         global port
         global s
-        host = "localhost"
+        host = "192.168.1.101"
         port = 9999
         s = socket.socket()
 
@@ -78,11 +78,11 @@ def accepting_connections():
 def start_turtle():
 
     while True:
-        cmd = input('turtle> ')
-        if cmd == 'list':
+        cmd2 = input('turtle> ')
+        if cmd2== 'list':
             list_connections()
-        elif 'select' in cmd:
-            conn = get_target(cmd)
+        elif 'select' in cmd2:
+            conn = get_target(cmd2)
             if conn is not None:
                 send_target_commands(conn)
 
@@ -96,16 +96,15 @@ def list_connections():
     results = ''
 
     for i, conn in enumerate(all_connections):
-        try:
+        """try:
             conn.send(str.encode(' '))
             conn.recv(20480)
         except:
             del all_connections[i]
             del all_address[i]
-            continue
-
-        results = str(i) + "   " + str(all_address[i][0]) + "   " + str(all_address[i][1]) + "\n"
-
+            continue"""
+    
+        results += str(i) + "   " + str(all_address[i][0]) + "   " + str(all_address[i][1]) + "\n"
     print("----Clients----" + "\n" + results)
 
 
@@ -131,7 +130,7 @@ def send_target_commands(conn):
     while True:
         try:
             #burdan kodları seçerek devam et
-            cmd = input("İşlem Numaranızı Seçin: \n1) Kullanıcı Ekleme \n2) Kullanıcı Silme \n3) Kullanıcı Düzenleme \n4) Dosya Yetkisi Ekleme ve Kaldırma\n5) Servis İşlemleri\n6) Reboot\n>>>")
+            cmd = input("İşlem Numaranızı Seçin: \n1) Kullanıcı Ekleme \n2) Kullanıcı Silme \n3) Kullanıcı Düzenleme \n4) Dosya Yetkisi Ekleme ve Kaldırma\n5) Servis İşlemleri\n6) Reboot\nquit)Sunucudan Çıkış Yap \n>>>")
             if cmd == "1":
                 cmd += ","
                 cmd += input("Kullanıcı Adı: ")
@@ -163,7 +162,7 @@ def send_target_commands(conn):
 
                 cmd += input("Kullanıcı Adını Giriniz\n>>> ")
                 cmd += ","
-                cmd += input("İşlem Seçiniz: \n 1) Parola Değiştirme \n 2) Enable \n 3) Disable \n 4) Gruba Ekle \n 5) Grubtan Çıkar\nquit)Sunucudan Çıkış Yap \n>>> ")
+                cmd += input("İşlem Seçiniz: \n 1) Parola Değiştirme \n 2) Enable \n 3) Disable \n 4) Gruba Ekle \n 5) Grubtan Çıkar\n>>> ")
                 if cmd.split(",")[2] == "1":
                     cmd += input("Yeni Parola: ")
                 elif cmd.split(",")[2] == "4":
